@@ -66,10 +66,9 @@ const captionSchema = new mongoose.Schema({
     }
 })
 
-captionSchema.methods.geneateAuthtoken = function(){
+captionSchema.methods.generateAuthToken = function(){
     const token = jwt.sign({_id: this._id},process.env.jwt_SECRET, {expiresIn: '24h'})
     return token; 
-    const captionModel = mongoose.model('caption', captionSchema)
 }
 
 captionSchema.methods.comparePassword = async function (password) {

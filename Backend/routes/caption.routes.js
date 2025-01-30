@@ -2,6 +2,7 @@ const captionController = require('../controllers/caption.controller');
 const express = require('express');
 const router = express.Router();
 const {body} = require("express-validator")
+const authMiddleware = require('../middlewares/auth.middleware');
 
 router.post('/register', [
     body('email').isEmail().withMessage('Invalid Email'),
@@ -14,5 +15,16 @@ router.post('/register', [
 ],
     captionController.registerCaption
 )
+
+router.post('/login',[
+    body('email').isEmail().withMessage('Invalid Email'),
+    body('password').isLength({min:6}).withMessage('password must be atleast length 6')
+],
+    captionController.loginCaption
+)
+
+router.get('/profile', authMiddleware.authCaption, captionController.getCaptionProfile)
+
+router.get('/logout', authMiddleware.authCaption, captionController.logoutCaption)
 
 module.exports = router;
